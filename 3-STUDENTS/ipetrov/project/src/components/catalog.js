@@ -1,30 +1,5 @@
 import ancientParent from "./ancient";
 
-// function createItemTemplate(item) {
-//     return `<div class="catalog__item" id="${item.productId}">
-//     <button 
-//         class="catalog__bucket" 
-//         name="add"
-//         data-id="${item.productId}" 
-//         data-price="${item.productPrice}" 
-//         data-name="${item.productName}" 
-//         data-image="${item.productImg}"
-//     >
-//         <img class="catalog__hidden_img" 
-//         src="https://raw.githubusercontent.com/Eliseev88/geekbrains/3fdc76c4d5e84b1398b168e6239b8651dce01f6f/products/Forma_1_copy.svg" alt="#">
-//         <span class="catalog__hidden_text">Add to Cart</span>
-//     </button>
-//     <div class="catalog__photo">
-//         <img class="catalog__img" src="${item.productImg}" alt="#">
-//     </div>
-//     <div class="catalog__content">
-//         <a class="catalog__name" href="#">${item.productName}</a>
-//         <div class="catalog__price">$${item.productPrice}.00</div>
-//     </div>
-// </div>`
-// }
-
-
 export default class Catalog extends ancientParent {
     constructor (basket, url = '/catalog.json', container = '#catalog') { 
         super(url, container);
