@@ -1,26 +1,13 @@
-export default class Basket {
-    constructor() {
-        this.items = [];
+import ancientParent from "./ancient";
+
+export default class Basket extends ancientParent {
+    constructor(url = '/basket.json', container = '#basket') {
+        super(url, container);
+        
         this.shown = false;
-        this.container = null;
-        this.itemsContainer = null;
-        this.url = 'https://raw.githubusercontent.com/kellolo/static/master/JSON/basket.json';
-        this._init();
-    }
-    _init () {
-        this.container = document.querySelector('#basket');
         this.itemsContainer = document.querySelector('#basket-items');
-        this.getData(this.url)
-            .then(basket => {this.items = basket.content})
-            .finally(() => {
-                this._render();
-                this._handleActions();
-            })
     }
-    getData(url) {
-        return fetch(url) //JSON
-            .then(data => data.json()) // JSON >>> Obj/Array
-    }
+
     _render() {
         let str = '';
         this.items.forEach(item => {
@@ -34,7 +21,7 @@ export default class Basket {
                             </span>$${item.productPrice}</div>
                         </div>
                         <button class="drop__cancel fas fa-times-circle" data-id="${item.productId}" name="remove">
-                        <button>
+                        </button>
                     </div>`;
         });
         this.itemsContainer.innerHTML = str;
