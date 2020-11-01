@@ -732,7 +732,7 @@ details[open] summary .fa-caret-up {
   height: 30px;
   border: 1px solid #eaeaea;
   outline: none;
-  text-indent: 25px;
+  text-align: center;
 }
 
 

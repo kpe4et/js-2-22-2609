@@ -12,31 +12,9 @@
             </div>
         </div>
 
-        <div class="productDetailsProduct">
-            <div class="productDetailsDescription">
-                <img src="../../assets/additional_imgs/ProductDetails1.jpg" alt="Product1">
-                <div class="productDescription">
-                    <div class="productDescriptionTitle">Mango  People  T-shirt</div>
-                    <div>
-                        <div class="productDescriptionFeature">Color: <span>Red</span></div>
-                        <div class="productDescriptionFeature">Size: <span>Xll</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="productDetailsRight">
-                <div class="productDetailsPrice">&#36; 150</div>
-                <div class="productDetailsQuantity">
-                    <form>
-                        <input type="number" min="0" max="9999" value="1">
-                    </form>
-                </div>
-                <div class="productDetailsShipping">Free</div>
-                <div class="productDetailsSubtotal">&#36; 300</div>
-                <div class="productDetailsAction"><i class="fas fa-times-circle"></i></div>
-            </div>
-        </div>
+        <Item v-for="item of items" :key="item.productId" :item="item" type="cart"/>
 
-        <div class="productDetailsProduct">
+        <!-- <div class="productDetailsProduct">
             <div class="productDetailsDescription">
                 <img src="../../assets/additional_imgs/ProductDetails2.jpg" alt="Product2">
                 <div class="productDescription">
@@ -82,7 +60,7 @@
                 <div class="productDetailsSubtotal">&#36; 300</div>
                 <div class="productDetailsAction"><i class="fas fa-times-circle"></i></div>
             </div>
-        </div>
+        </div> -->
         <div class="productDetailsButtons">
             <button>cLEAR SHOPPING CART</button>
             <button>cONTINUE sHOPPING</button>
@@ -113,8 +91,8 @@
         </div>
         <div class="proceedToCheckout">
             <div>
-                <div class="subTotal">sub total <span>&#36;900</span></div>
-                <div class="grandTotal">grand total <span>&#36;900</span></div>
+                <div class="subTotal">sub total <span>$ {{ getTotal() }}</span></div>
+                <div class="grandTotal">grand total <span>$ {{ getTotal() }}</span></div>
                 <button>proceed to checkout</button>
             </div>
         </div>
@@ -123,8 +101,72 @@
 </template>
 
 <script>
-export default {
+import Item from '../Item.vue'
+import $axXios from '../../utils/axios' 
 
+export default {
+  components: { Item },
+  data() {
+    return {
+      items: [],
+      url: '/api/basket',
+      // url: '/basket',
+    }
+  },
+  methods: {
+    getTotal() {
+      var total = 0;
+      this.items.forEach(item => {
+        total += item.productPrice * item.amount;        
+      });
+      return total
+    },
+  change(item, amount) {
+    let find = this.items.find(el => el.productId == item.productId);
+    console.log(amount);
+    let difference = amount - find.amount;
+    console.log(difference);
+    
+    $axXios.put(`${this.url}/${find.productId}`, difference)
+          .then(status => {
+              if(status) {
+                  find.amount = amount;
+              }
+          })
+          .catch(e => {
+              console.log(e);
+          })
+  },
+  remove(id) {
+      let find = this.items.find(el => el.productId == id);
+      if (find.amount > 1) {
+          $axXios.put(`${this.url}/${find.productId}`, -1)
+          .then(status => {
+              if(status) {
+                  find.amount--;
+              }
+          })
+          .catch(e => {
+              console.log(e);
+          })
+      } else {
+          $axXios.delete(`${this.url}/${find.productId}`)
+          .then(status => {
+              if(status) {
+                  this.items.splice(this.items.indexOf(find), 1);
+              }
+          })
+          .catch(e => {
+              console.log(e);
+          })
+      }
+    }
+  },
+  mounted() {
+        $axXios.get(this.url)
+            .then(items => 
+                {this.items = items.content;})
+    },
 }
 </script>
 
@@ -215,7 +257,7 @@ main {
   height: 30px;
   border: 1px solid #eaeaea;
   outline: none;
-  text-indent: 25px;
+  text-align: center;
 }
 
 

@@ -36,6 +36,34 @@
                 </button>
             </div>
         </template>
+        
+        <template v-if="type == 'cart'">
+            <div class="productDetailsProduct">
+                <div class="productDetailsDescription">
+                    <img :src="item.productImg" alt="Product1">
+                    <div class="productDescription">
+                        <div class="productDescriptionTitle">{{item.productName}}</div>
+                        <!-- <div>
+                            <div class="productDescriptionFeature">Color: <span>Red</span></div>
+                            <div class="productDescriptionFeature">Size: <span>Xll</span></div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="productDetailsRight">
+                    <div class="productDetailsPrice">${{item.productPrice}}</div>
+                    <div class="productDetailsQuantity">
+                        <form>
+                            <input type="number" min="0" max="9999" 
+                            :value="item.amount"
+                            @input="$parent.change(item, $event.target.value)">
+                        </form>
+                    </div>
+                    <div class="productDetailsShipping">Free</div>
+                    <div class="productDetailsSubtotal">${{item.productPrice * item.amount}}</div>
+                    <div class="productDetailsAction"><i class="fas fa-times-circle" @click="$parent.remove(item.productId)"></i></div>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
 

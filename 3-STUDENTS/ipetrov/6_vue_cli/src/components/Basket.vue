@@ -36,7 +36,6 @@ export default {
     },
     methods: {
         add(item) {
-            console.log(item)
             let find = this.items.find(el => el.productId == item.productId);
             if (!find) {
                 let newItem = Object.assign({}, item, { amount: 1 });
