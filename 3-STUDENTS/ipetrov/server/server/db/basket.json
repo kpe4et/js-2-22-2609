@@ -7,7 +7,7 @@
    "productPrice": 67,
    "productImg": "https://raw.githubusercontent.com/kellolo/static/master/img/JS1_shop/featuredItem4.jpg",
    "productId": "prod_3",
-   "amount": 116
+   "amount": 16
   },
   {
    "productName": "PUMKIN PEOPLE T-SHIRT",
@@ -42,7 +42,7 @@
    "productPrice": 53,
    "productImg": "https://raw.githubusercontent.com/kellolo/static/master/img/JS1_shop/featuredItem2.jpg",
    "productId": "prod_1",
-   "amount": 2
+   "amount": 3
   },
   {
    "productName": "MANGO PEOPLE T-SHIRT",

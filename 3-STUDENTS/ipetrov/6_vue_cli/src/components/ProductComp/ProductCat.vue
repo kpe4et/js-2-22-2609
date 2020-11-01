@@ -174,7 +174,7 @@
                     </form>
                     <form class="py-3">
                         <label class="px-2 ml-3 mb-0" for="sortBy">Show</label>
-                        <select class="" id="sortBy">
+                        <select class="" id="">
                             <option selected>09</option>
                             <option value="1">18</option>
                             <option value="2">36</option>
@@ -185,7 +185,9 @@
 
                 <!-------------------------------FETURED ST----------------------------->
 
-                <div class="row row-cols-3" id="catalog"></div>
+                <div class="row row-cols-3" id="catalog">
+                    <Item v-for="item of items" :key="item.productId" :item="item" type="realCatalog"/>
+                </div>
 
                 <div class="d-flex flex-column align-items-center justify-content-around mt-5 flex-sm-row justify-content-sm-between">
                     <nav aria-label="Page navigation example">
@@ -262,11 +264,294 @@
 </template>
 
 <script>
-export default {
+import Item from '../Item.vue'
+import $axXios from '../../utils/axios' 
 
+export default {
+    components: { Item },
+    data() {
+        return {
+            items: [],
+            // url: 'https://raw.githubusercontent.com/kpe4et/static/master/JSON/catalog.json'
+            url: '/api/catalog' //for Dev
+            // url: '/catalog' //for Build
+        }
+    },
+    mounted() {
+        $axXios.get(this.url)
+            .then(items => 
+                {this.items = items;})
+    }
 }
 </script>
 
 <style>
+details div a {
+  text-decoration: none;
+  color: #6f6e6e;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 33px;
+  padding-left: calc(1rem - 5px); }
+  @media (max-width: 768px) {
+    details div a {
+      font-size: 20px; } }
+  details div a:first-child {
+    padding-top: 1rem; }
+  details div a:hover {
+    text-decoration: none;
+    color: #f16d7f; }
+details:focus {
+  outline: 0; }
+details summary {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-left: 5px solid #f16d7f;
+  border-bottom: 1px solid #ebebeb;
+  color: #6f6e6e;
+  line-height: 20px; }
+  @media (max-width: 768px) {
+    details summary {
+      font-size: 16px; } }
+  details summary:focus {
+    outline: 0; }
+  details summary::-webkit-details-marker {
+    display: none; }
+  details summary i:last-child {
+    display: none; }
 
+details[open] summary {
+  color: #ef5b70; }
+
+details[open] summary .fa-caret-down {
+  display: none; }
+
+details[open] summary .fa-caret-up {
+  display: block; }
+
+.productFeatures a, .productFeatures input, .productFeatures label, .productFeatures div {
+  text-decoration: none;
+  color: #6f6e6e;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 26px; }
+  @media (max-width: 768px) {
+    .productFeatures a, .productFeatures input, .productFeatures label, .productFeatures div {
+      font-size: 16px; } }
+.productFeatures a:hover {
+  color: #f16d7f; }
+
+.productFeaturesTitle {
+  color: #6f6e6e;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  text-transform: uppercase; }
+  @media (max-width: 768px) {
+    .productFeaturesTitle {
+      font-size: 16px; } }
+
+.productSizes div label {
+  color: #6f6e6e;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-transform: uppercase;
+  margin-bottom: 0; }
+  @media (max-width: 768px) {
+    .productSizes div label {
+      font-size: 16px; } }
+
+.sortBy {
+  background-color: #f3f3f3; }
+  .sortBy form {
+    color: #6f6e6e;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 26px; }
+    @media (max-width: 768px) {
+      .sortBy form {
+        font-size: 16px; } }
+    .sortBy form label {
+      background-color: #ffffff; }
+      @media (max-width: 355px) {
+        .sortBy form label {
+          padding: 0 1.2rem !important; } }
+    .sortBy form select {
+      outline: none;
+      border: 1px solid #ebebeb;
+      -webkit-appearance: none;
+      background: url("../../assets/additional_imgs/caret.jpg") no-repeat;
+      background-position: 90% 50%;
+      padding-left: 0.8rem;
+      padding-right: 2rem;
+      color: #6f6e6e;
+      background-color: #ffffff; }
+      @media (max-width: 355px) {
+        .sortBy form select {
+          margin-left: 1rem; } }
+
+.feturedItems {
+  padding-top: 2rem; }
+  @media (max-width: 450px) {
+    .feturedItems {
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin-left: 0;
+      padding-top: 0; } }
+  @media (min-width: 767.98px) {
+    .feturedItems {
+      padding-top: 0; } }
+
+@media (min-width: 1199.98px) {
+  .feturedItem {
+    margin-top: 2rem;
+    width: 260px; } }
+.feturedItem:hover {
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.16); }
+.feturedItem .feturedImgWrap {
+  height: 280px;
+  position: relative; }
+  .feturedItem .feturedImgWrap img {
+    width: 100%;
+    display: block;
+    height: inherit;
+    object-fit: contain;
+    object-position: center center; }
+    @media (max-width: 450px) {
+      .feturedItem .feturedImgWrap img {
+        object-fit: contain;
+        margin-top: 2rem; } }
+  .feturedItem .feturedImgWrap .feturedBuy {
+    height: inherit;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    position: absolute; }
+    .feturedItem .feturedImgWrap .feturedBuy button {
+      padding: 15px;
+      border: 1px solid #ffffff;
+      background: none;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer; }
+      .feturedItem .feturedImgWrap .feturedBuy button div {
+        margin-right: 10px; }
+      .feturedItem .feturedImgWrap .feturedBuy button i {
+        padding-right: 10px; }
+.feturedItem .feturedItemName {
+  color: #222222;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  overflow: hidden;
+  padding-top: 0.8rem;
+  padding-left: 0.8rem; }
+  @media (max-width: 768px) {
+    .feturedItem .feturedItemName {
+      font-size: 16px;
+      padding-top: 0.4rem; } }
+  @media (min-width: 768px) and (max-width: 1199.98px) {
+    .feturedItem .feturedItemName {
+      padding-top: 0; } }
+.feturedItem .feturedItemPrice {
+  color: #f16d7f;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.4rem 0 0.5rem 0.8rem; }
+  @media (max-width: 768px) {
+    .feturedItem .feturedItemPrice {
+      font-size: 16px;
+      padding-left: 0;
+      padding-top: 0.4rem; } }
+  @media (min-width: 768px) and (max-width: 1199.98px) {
+    .feturedItem .feturedItemPrice {
+      padding-top: 0.2rem; } }
+
+@media (min-width: 768px) {
+  .feturedItem:hover .feturedBuy {
+    display: flex;
+    justify-content: center;
+    align-items: center; } }
+.feturedBuySm button {
+  border-radius: 3px;
+  border: 1px solid #ef5b70;
+  background-color: #ffffff;
+  color: #ef5b70;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 26px;
+  padding: 0.5rem; }
+  .feturedBuySm button:hover {
+    background-color: #f16d7f;
+    color: #ffffff; }
+
+.pagination {
+  border-radius: 3px;
+  border: 1px solid #ebebeb;
+  background-color: #ffffff;
+  margin: 0 !important; }
+  .pagination .page-link {
+    color: #c4c4c4;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 26px;
+    border: none;
+    padding: .545rem .489rem; }
+    @media (max-width: 768px) {
+      .pagination .page-link {
+        font-size: 20px; } }
+    .pagination .page-link:hover {
+      color: #f16d7f;
+      background-color: #ffffff; }
+
+.productsButton, .productsButtonIndex {
+  border-radius: 3px;
+  border: 1px solid #ef5b70;
+  background-color: #ffffff;
+  color: #ef5b70;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 26px;
+  padding: 0.5rem 3rem; }
+  @media (max-width: 768px) {
+    .productsButton, .productsButtonIndex {
+      font-size: 20px; } }
+  .productsButton:hover, .productsButtonIndex:hover {
+    background-color: #f16d7f;
+    color: #ffffff; }
+
+.productsFeaturesBg {
+  background-color: #222224; }
+  .productsFeaturesBg .productsFeaturesText {
+    color: #fbfbfb;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; }
+    .productsFeaturesBg .productsFeaturesText div {
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem; }
+      .productsFeaturesBg .productsFeaturesText div:last-child {
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 23.95px;
+        margin: 0 1.5rem 0 1.5rem; }
+        @media (max-width: 768px) {
+          .productsFeaturesBg .productsFeaturesText div:last-child {
+            font-size: 16px; } }
+        @media (max-width: 1199.98px) {
+          .productsFeaturesBg .productsFeaturesText div:last-child {
+            margin: 0; } }
+        @media (max-width: 991.98px) {
+          .productsFeaturesBg .productsFeaturesText div:last-child {
+            padding: 0 1rem 0 1rem; } }
 </style>
